@@ -30,18 +30,18 @@ class _MyAppState extends State<MyApp> {
   /// 如果用MaterialPageRoute的话同理
 
   Map<String, FlutterBoostRouteFactory> routerMap = {
-    'mainPage': (RouteSettings settings, String? uniqueId) {
+    'tcx//VideoCall/complexPage': (RouteSettings settings, String? uniqueId) {
       return CupertinoPageRoute(
           settings: settings,
           builder: (_) {
             Map<String, dynamic> map = settings.arguments as Map<String, dynamic> ;
             String data = map['data'] as String;
-            return MainPage(
+            return ComplexPage(
               data: data,
             );
           });
     },
-    'simplePage': (settings, uniqueId) {
+    'tcx//VideoCall/simplePage': (settings, uniqueId) {
       return CupertinoPageRoute(
           settings: settings,
           builder: (_) {
@@ -58,17 +58,9 @@ class _MyAppState extends State<MyApp> {
     final func = routerMap[settings.name];
     if (func != null) {
       return func(settings, uniqueId);
-    } else {
-      // 返回一个默认路由或错误页面，避免 null 崩溃
-      return CupertinoPageRoute(
-        builder: (_) => Scaffold(
-          appBar: AppBar(title: const Text("未注册的路由")),
-          body: Center(child: Text('未找到路由：${settings.name}')),
-        ),
-      );
     }
-    // FlutterBoostRouteFactory func = routerMap[settings.name] as FlutterBoostRouteFactory;
-    // return func(settings,uniqueId);
+    // final func = routerMap[settings.name];
+    // return func!(settings,uniqueId);
   }
 
   Widget appBuilder(Widget home) {
@@ -92,12 +84,36 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-class MainPage extends StatelessWidget {
-  const MainPage({required dynamic data});
+class ComplexPage extends StatelessWidget {
+  final dynamic data;
+
+  const ComplexPage({Key? key, required this.data}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: Text('Main Page')),
+    return Scaffold(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Text("Complex Page"),
+          ),
+          Center(
+            child: Text(data?.toString() ?? '无数据'),
+          ),
+          Center(
+            child: TextButton(onPressed: () {
+              BoostNavigator.instance.push(
+                  "tcx//VideoCall/main", arguments: {"data": "来自ComplexPage"});
+            }, child: Text("跳转原生Main")),
+          ),
+          Center(
+            child: TextButton(onPressed: () {
+              BoostNavigator.instance.push("tcx//VideoCall/simplePage",arguments: {"data":"来自ComplexPage"});
+            }, child: Text("跳转simplePage")),
+          )
+        ],
+      ),
     );
   }
 }
@@ -110,8 +126,27 @@ class SimplePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text(data?.toString() ?? '无数据'),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Text("Simple Page"),
+          ),
+          Center(
+            child: Text(data?.toString() ?? '无数据'),
+          ),
+          Center(
+            child: TextButton(onPressed: () {
+              BoostNavigator.instance.push(
+                  "tcx//VideoCall/main", arguments: {"data": "来自SimplePage"});
+            }, child: Text("跳转原生Main")),
+          ),
+          Center(
+            child: TextButton(onPressed: () {
+              BoostNavigator.instance.push("tcx//VideoCall/complexPage",arguments: {"data":"来自SimplePage"});
+            }, child: Text("跳转complexPage")),
+          )
+        ],
       ),
     );
   }
