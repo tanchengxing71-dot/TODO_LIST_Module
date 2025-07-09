@@ -41,14 +41,20 @@ class _SimplePage extends TcxRouterPageState<SimplePage>{
           Center(
             child: TextButton(onPressed: () {
               BoostNavigator.instance.push(
-                  "${Const.origin}/main", arguments: {"data": "来自Flutter层的SimplePage"});
+                  "${Const.origin}/main", arguments: {"message": "来自Flutter层的SimplePage"});
             }, child: Text("跳转原生Main")),
           ),
           Center(
             child: TextButton(onPressed: () {
               BoostNavigator.instance.push(Const.origin+ComplexPage.path,arguments: {"data":"来自Flutter层的SimplePage"});
             }, child: Text("跳转complexPage")),
-          )
+          ),
+          Center(
+            child: TextButton(onPressed: () {
+              BoostNavigator.instance.pop(
+                  {"message": "来自Flutter层的SimplePage"});
+            }, child: Text("返回原生Main")),
+          ),
         ],
       ),
     );
