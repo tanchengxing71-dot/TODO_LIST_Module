@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_boost/flutter_boost.dart';
 
 
@@ -44,6 +45,10 @@ abstract class TcxRouterPageState<T extends TcxRouterPage> extends State<T>
   @mustCallSuper
   void initState() {
     super.initState();
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent, // 或你想要的颜色
+      statusBarIconBrightness: Brightness.dark, // 黑色字体
+    ));
 
   }
 
