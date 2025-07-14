@@ -4,6 +4,8 @@ import 'package:tcx_video_call_module/common/router_page.dart';
 import 'package:tcx_video_call_module/const.dart';
 import 'package:tcx_video_call_module/pages/simple_page.dart';
 
+import '../native/utils_channel.dart';
+
 class ComplexPage extends TcxRouterPage {
   final String data;
   static String path = "/pages/complexPage";
@@ -56,6 +58,11 @@ class _ComplexPage extends TcxRouterPageState<ComplexPage>{
               BoostNavigator.instance.pop(
                   {"message": "来自Flutter层的ComplexPage"});
             }, child: Text("返回原生Main")),
+          ),
+          Center(
+            child: TextButton(onPressed: () {
+              UtilsChannel.showToast("hello Android");
+            }, child: Text("测试原生通道")),
           ),
 
         ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_boost/flutter_boost.dart';
 import 'package:tcx_video_call_module/common/router_page.dart';
 import 'package:tcx_video_call_module/const.dart';
+import 'package:tcx_video_call_module/native/utils_channel.dart';
 import 'package:tcx_video_call_module/pages/complex_page.dart';
 
 class SimplePage extends TcxRouterPage {
@@ -54,6 +55,11 @@ class _SimplePage extends TcxRouterPageState<SimplePage>{
               BoostNavigator.instance.pop(
                   {"message": "来自Flutter层的SimplePage"});
             }, child: Text("返回原生Main")),
+          ),
+          Center(
+            child: TextButton(onPressed: () {
+              UtilsChannel.showToast("hello Android");
+            }, child: Text("测试原生通道")),
           ),
         ],
       ),
