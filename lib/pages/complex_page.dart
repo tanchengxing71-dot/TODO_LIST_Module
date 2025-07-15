@@ -4,6 +4,7 @@ import 'package:tcx_video_call_module/common/router_page.dart';
 import 'package:tcx_video_call_module/const.dart';
 import 'package:tcx_video_call_module/pages/simple_page.dart';
 
+import '../native/api_channel.dart';
 import '../native/utils_channel.dart';
 
 class ComplexPage extends TcxRouterPage {
@@ -63,6 +64,11 @@ class _ComplexPage extends TcxRouterPageState<ComplexPage>{
             child: TextButton(onPressed: () {
               UtilsChannel.showToast("hello Android");
             }, child: Text("测试原生通道")),
+          ),
+          Center(
+            child: TextButton(onPressed: () {
+              ApiChannel.testRequest();
+            }, child: Text("测试原生网络请求")),
           ),
 
         ],

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_boost/flutter_boost.dart';
 import 'package:tcx_video_call_module/common/router_page.dart';
 import 'package:tcx_video_call_module/const.dart';
+import 'package:tcx_video_call_module/native/api_channel.dart';
 import 'package:tcx_video_call_module/native/utils_channel.dart';
 import 'package:tcx_video_call_module/pages/complex_page.dart';
 
@@ -60,6 +61,11 @@ class _SimplePage extends TcxRouterPageState<SimplePage>{
             child: TextButton(onPressed: () {
               UtilsChannel.showToast("hello Android");
             }, child: Text("测试原生通道")),
+          ),
+          Center(
+            child: TextButton(onPressed: () {
+              ApiChannel.testRequest();
+            }, child: Text("测试原生网络请求")),
           ),
         ],
       ),
