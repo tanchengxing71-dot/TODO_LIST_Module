@@ -1,4 +1,4 @@
-name: tcx_video_call_module
+name: tcx_base_module
 description: "A new Flutter project."
 
 # The following defines the version and build number for your application.
@@ -89,5 +89,5 @@ flutter:
   # identifiers, which may be completely independent or the same as these.
   module:
     androidX: true
-    androidPackage: com.tcx.tcx_video_call_module
-    iosBundleIdentifier: com.tcx.tcxVideoCallModule
+    androidPackage: com.tcx.tcx_base_module
+    iosBundleIdentifier: com.tcx.tcxBaseModule
