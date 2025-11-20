@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_boost/flutter_boost.dart';
-import 'package:tcx_video_call_module/common/router_page.dart';
-import 'package:tcx_video_call_module/const.dart';
-import 'package:tcx_video_call_module/native/api_channel.dart';
-import 'package:tcx_video_call_module/native/utils_channel.dart';
-import 'package:tcx_video_call_module/pages/complex_page.dart';
+import 'package:tcx_base_module/common/router_page.dart';
+import 'package:tcx_base_module/const.dart';
+import 'package:tcx_base_module/native/api_channel.dart';
+import 'package:tcx_base_module/native/utils_channel.dart';
+import 'package:tcx_base_module/pages/complex_page.dart';
 
 class SimplePage extends TcxRouterPage {
   final String data;
