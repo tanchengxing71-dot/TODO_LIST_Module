@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_boost/flutter_boost.dart';
-import 'package:tcx_base_module/common/router_page.dart';
-import 'package:tcx_base_module/const.dart';
-import 'package:tcx_base_module/pages/complex_page.dart';
-import 'package:tcx_base_module/pages/simple_page.dart';
+import 'package:todo_list_module/common/router_page.dart';
+import 'package:todo_list_module/const.dart';
+import 'package:todo_list_module/pages/complex_page.dart';
+import 'package:todo_list_module/pages/simple_page.dart';
 
 
 class TcxRouter{

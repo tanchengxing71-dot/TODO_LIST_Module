@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_boost/flutter_boost.dart';
-import 'package:tcx_base_module/router.dart';
+import 'package:todo_list_module/router.dart';
 
 void main() {
   ///这里的CustomFlutterBinding调用务必不可缺少，用于控制Boost状态的resume和pause
