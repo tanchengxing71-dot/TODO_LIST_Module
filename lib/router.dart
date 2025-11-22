@@ -5,6 +5,7 @@ import 'package:todo_list_module/common/router_page.dart';
 import 'package:todo_list_module/const.dart';
 import 'package:todo_list_module/pages/complex_page.dart';
 import 'package:todo_list_module/pages/simple_page.dart';
+import 'package:todo_list_module/pages/todo/todo_list_page.dart';
 
 
 class TcxRouter{
@@ -12,6 +13,7 @@ class TcxRouter{
   static Map<String, dynamic> routerMapList = {
     Const.origin+ComplexPage.path: ComplexPage(data: "",),
     Const.origin+SimplePage.path: SimplePage(data: "",),
+    Const.origin+TodoListPage.path: TodoListPage()
   };
 
 
