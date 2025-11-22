@@ -7,10 +7,12 @@ import 'package:todo_list_module/pages/todo/todo_list_state.dart';
 class TodoListCubit extends Cubit<TodoListState>{
   TodoListCubit() : super(TodoListState());
 
+  int currentType = -1;
+
   Future<void> insertTodo(Todo todo) async{
     final id = await TodoChannel.insert(todo);
     if(id!=null && id>0){
-      queryAll();
+      fetchList();
     }
   }
 
@@ -19,8 +21,52 @@ class TodoListCubit extends Cubit<TodoListState>{
     emit(state.copyWith(list: list));
   }
 
+  Future<void> queryByType() async{
+    if(currentType==-1){
+      queryAll();
+      return;
+    }
+    final list = await TodoChannel.queryByType(currentType);
+    emit(state.copyWith(list: list));
+  }
+
+  Future<void> update(Todo todo) async{
+    final id = await TodoChannel.update(todo);
+    if(id!=null && id>0){
+      fetchList();
+    }
+  }
+
+  Future<void> changeStatus(Todo todo) async {
+    todo = todo.copyWith(status: todo.status == 0 ? 1 : 0);
+    final updatedId = await TodoChannel.update(todo);
+    if (updatedId == null || updatedId <= 0) return;
+
+    final newList = state.list.map((t) {
+      return t.id == todo.id
+          ? t.copyWith(status: t.status == 0 ? 1 : 0)
+          : t;
+    }).toList();
+    emit(state.copyWith(list: newList));
+  }
+
+  Future<void> delete(Todo todo) async{
+    final id = await TodoChannel.delete(todo);
+    if(id!=null && id>0){
+      fetchList();
+    }
+  }
+
+  Future fetchList() async {
+    if(currentType==-1){
+      queryAll();
+    }else{
+      queryByType();
+    }
+  }
+
   init(){
-    queryAll();
+    fetchList();
   }
 
 }

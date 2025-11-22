@@ -3,9 +3,14 @@ import 'package:intl/intl.dart';
 import 'package:todo_list_module/model/todo.dart';
 
 class TodoInputDialog extends StatefulWidget {
-  final Function(Todo) onSubmit;
+  final Function(Todo,bool) onSubmit;
+  final Todo? initTodo;
 
-  const TodoInputDialog({super.key, required this.onSubmit});
+  const TodoInputDialog({
+    super.key,
+    required this.onSubmit,
+    this.initTodo,
+  });
 
   @override
   State<TodoInputDialog> createState() => _TodoInputDialogState();
@@ -14,12 +19,30 @@ class TodoInputDialog extends StatefulWidget {
 class _TodoInputDialogState extends State<TodoInputDialog> {
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
-  int _type = 0; // 0 工作, 1 学习, 2 生活
+  int _type = 0;
   DateTime _selectedTime = DateTime.now();
 
   final _formKey = GlobalKey<FormState>();
 
-  // 打开时间选择器
+  @override
+  void initState() {
+    super.initState();
+
+    // 如果传来了 Todo，自动填充
+    if (widget.initTodo != null) {
+      final todo = widget.initTodo!;
+      _titleController.text = todo.title??"";
+      _contentController.text = todo.content??"";
+      _type = todo.type??0;
+
+      try {
+        _selectedTime = DateFormat('yyyy-MM-dd HH:mm').parse(todo.time??DateTime.now().toString());
+      } catch (_) {
+        _selectedTime = DateTime.now();
+      }
+    }
+  }
+
   Future<void> _pickDateTime() async {
     DateTime? date = await showDatePicker(
       context: context,
@@ -57,31 +80,29 @@ class _TodoInputDialogState extends State<TodoInputDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final isEdit = widget.initTodo != null;
+
     return AlertDialog(
-      title: const Text("新增 Todo"),
+      title: Text(isEdit ? "编辑 Todo" : "新增 Todo"),
       content: SingleChildScrollView(
         child: Form(
           key: _formKey,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              // Title 输入框
               TextFormField(
                 controller: _titleController,
                 maxLength: 10,
                 decoration: const InputDecoration(
                   labelText: "标题",
-                  counterText: "", // 去掉右下角计数
+                  counterText: "",
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) return "标题不能为空";
                   return null;
                 },
               ),
-
               const SizedBox(height: 8),
-
-              // Content 输入框
               TextFormField(
                 controller: _contentController,
                 maxLines: 3,
@@ -89,10 +110,7 @@ class _TodoInputDialogState extends State<TodoInputDialog> {
                   labelText: "内容",
                 ),
               ),
-
               const SizedBox(height: 8),
-
-              // Type 选择器
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -101,10 +119,7 @@ class _TodoInputDialogState extends State<TodoInputDialog> {
                   _buildTypeButton(2, "生活"),
                 ],
               ),
-
               const SizedBox(height: 8),
-
-              // 时间选择器
               Row(
                 children: [
                   const Text("截止时间: "),
@@ -126,27 +141,32 @@ class _TodoInputDialogState extends State<TodoInputDialog> {
         ElevatedButton(
           onPressed: () {
             if (_formKey.currentState?.validate() ?? false) {
+              final formattedTime =
+              DateFormat('yyyy-MM-dd HH:mm').format(_selectedTime);
+
               final todo = Todo(
+                id: widget.initTodo?.id ?? 0, // ← 编辑模式保留 id
                 title: _titleController.text,
                 content: _contentController.text,
                 type: _type,
-                time: DateFormat('yyyy-MM-dd HH:mm').format(_selectedTime),
+                time: formattedTime,
+                status: widget.initTodo?.status??0
               );
-              widget.onSubmit(todo);
+
+              widget.onSubmit(todo,isEdit);
               Navigator.of(context).pop();
             }
           },
-          child: const Text("确定"),
+          child: Text(isEdit ? "保存" : "确定"),
         ),
       ],
     );
   }
 
   Widget _buildTypeButton(int index, String label) {
-    final isSelected = _type == index;
     return ChoiceChip(
       label: Text(label),
-      selected: isSelected,
+      selected: _type == index,
       onSelected: (_) {
         setState(() {
           _type = index;
