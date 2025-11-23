@@ -90,26 +90,49 @@ class _TodoInputDialogState extends State<TodoInputDialog> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              TextFormField(
-                controller: _titleController,
-                maxLength: 10,
-                decoration: const InputDecoration(
-                  labelText: "标题",
-                  counterText: "",
+              // 标题框
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.grey),
                 ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) return "标题不能为空";
-                  return null;
-                },
-              ),
-              const SizedBox(height: 8),
-              TextFormField(
-                controller: _contentController,
-                maxLines: 3,
-                decoration: const InputDecoration(
-                  labelText: "内容",
+                child: TextFormField(
+                  controller: _titleController,
+                  maxLength: 10,
+                  decoration: const InputDecoration(
+                    labelText: "标题",
+                    counterText: "",
+                    border: InputBorder.none,
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) return "标题不能为空";
+                    return null;
+                  },
                 ),
               ),
+
+              const SizedBox(height: 12),
+
+              // 内容框
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.grey),
+                ),
+                child: TextFormField(
+                  controller: _contentController,
+                  maxLines: 3,
+                  decoration: const InputDecoration(
+                    labelText: "内容",
+                    border: InputBorder.none,
+                  ),
+                ),
+              ),
+
               const SizedBox(height: 8),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

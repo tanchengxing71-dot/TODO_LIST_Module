@@ -65,6 +65,18 @@ class _TodoListPage extends TcxRouterPageState<TodoListPage> {
         appBar: AppBar(
           title: const Text("Todo List"),
           actions: [
+            BlocBuilder<TodoListCubit, TodoListState>(
+              builder: (context, state) {
+                return IconButton(
+                  icon: Icon(
+                    state.isAsc ? Icons.arrow_upward : Icons.arrow_downward,
+                  ),
+                  onPressed: () {
+                    _cubit.reverseList();
+                  },
+                );
+              },
+            ),
             FilterTypeButton(
               currentType: _cubit.currentType,     // int，例如 0/1/2/-1(全部)
               onSelected: (type) {
